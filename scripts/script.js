@@ -6,7 +6,3 @@ getWeatherData();
 
 
 
-
-function hourBtn(){
-    //watch a day in details based on hours
-}
