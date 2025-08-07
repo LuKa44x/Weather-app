@@ -1,10 +1,11 @@
 //DOM Manager
+const mainContainer = document.querySelector('.main-container');
+export function createTable(data) {
+  mainContainer.innerHTML = '';
+  const table = document.createElement("table");
 
-export function createTable(data){
-    const table = document.createElement("table");
-
-    const thead = document.createElement("thead");
-    thead.innerHTML = `
+  const thead = document.createElement("thead");
+  thead.innerHTML = `
         <tr>
           <th>Date</th>
           <th>Description</th>
@@ -17,12 +18,12 @@ export function createTable(data){
           <th>Hours</th>
         </tr>
       `;
-      table.appendChild(thead);
+  table.appendChild(thead);
 
-      const tbody = document.createElement("tbody");
-        data.forEach(days => {
-           const row = document.createElement("tr"); 
-           row.innerHTML = `
+  const tbody = document.createElement("tbody");
+  data.forEach(days => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
            <td>${days.datetime}</td>
            <td>${days.description}</td>
            <td>${days.precipprob} ( ${days.preciptype} )</td>
@@ -32,32 +33,32 @@ export function createTable(data){
            <td>${days.sunrise}</td>
            <td>${days.sunset}</td>
            <td><button class="hourInfo" id="${days.datetime}">See Hour Info</button></td>`;
-           tbody.appendChild(row);
-        });
-        table.appendChild(tbody);
-        document.querySelector("body").appendChild(table);
+    tbody.appendChild(row);
+  });
+  table.appendChild(tbody);
+  mainContainer.appendChild(table);
 
 
-showHourInfo(data);
-    //watch a day in details based on hours
+  showHourInfo(data);
+  //watch a day in details based on hours
 
-    
+
 }
-function showHourInfo(data){
+function showHourInfo(data) {
   const table = document.querySelector("table");
-    const hourBtn = document.querySelectorAll(".hourInfo");
-    
+  const hourBtn = document.querySelectorAll(".hourInfo");
 
 
-    hourBtn.forEach( (e)=>{
 
-    
-    e.addEventListener("click", ()=>{
+  hourBtn.forEach((e) => {
+
+
+    e.addEventListener("click", () => {
       const idBtn = e.id;
-        table.innerHTML = "";
+      table.innerHTML = "";
 
-        const thead = document.createElement("thead");
-        thead.innerHTML = `
+      const thead = document.createElement("thead");
+      thead.innerHTML = `
             <tr>
               <th>Hours</th>
               <th>Condition</th>
@@ -69,15 +70,15 @@ function showHourInfo(data){
               <th>Cloud Cover</th>
             </tr>
           `;
-          table.appendChild(thead);
-          const tbody = document.createElement("tbody");
-        //return index for the correct day
-      const index = data.findIndex( (e) =>{
-        return e.datetime === idBtn;  
+      table.appendChild(thead);
+      const tbody = document.createElement("tbody");
+      //return index for the correct day
+      const index = data.findIndex((e) => {
+        return e.datetime === idBtn;
       });
-        data[index].hours.forEach(hours => {
-           const row = document.createElement("tr"); 
-           row.innerHTML = `
+      data[index].hours.forEach(hours => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
            <td>${hours.datetime}</td>
            <td>${hours.conditions}</td>
            <td>${hours.precipprob} ( ${hours.preciptype} )</td>
@@ -86,20 +87,20 @@ function showHourInfo(data){
            <td>${hours.snow}</td>
            <td>${hours.windspeed}</td>
            <td>${hours.cloudcover}</td>`;
-           tbody.appendChild(row);
-        });
-        table.appendChild(tbody);
-        document.querySelector("body").appendChild(table);
+        tbody.appendChild(row);
+      });
+      table.appendChild(tbody);
+      mainContainer.appendChild(table);
 
-        //go back button
-        const exitBtn = document.createElement("button");
-        exitBtn.textContent = "Exit";
-        exitBtn.addEventListener("click", () =>{
-          document.querySelector("body").innerHTML ='';
-          createTable(data);
-        })
-        document.querySelector("body").appendChild(exitBtn);
+      //go back button
+      const exitBtn = document.createElement("button");
+      exitBtn.textContent = "Exit";
+      exitBtn.addEventListener("click", () => {
+        mainContainer.innerHTML = '';
+        createTable(data);
+      })
+      mainContainer.appendChild(exitBtn);
     })
-  
-}) 
+
+  })
 }

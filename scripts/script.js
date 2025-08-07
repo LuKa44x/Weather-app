@@ -1,6 +1,10 @@
 import { getWeatherData } from "./src/api.js";
 
-getWeatherData();
+const submitBtn = document.querySelector('#submit');
+submitBtn.addEventListener("click", () => {
+    getWeatherData();
+})
+
 
 
 
